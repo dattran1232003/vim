@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =9
+let g:netrw_dirhist_9='/Users/dattran'
+let g:netrw_dirhist_8='/Users/dattran/.vim'
+let g:netrw_dirhist_7='/Users'
+let g:netrw_dirhist_6='/Users/dattran'
+let g:netrw_dirhist_5='/Users/dattran/Programming'
+let g:netrw_dirhist_4='/Users/dattran/Programming/techio'
+let g:netrw_dirhist_3='/Users/dattran'
+let g:netrw_dirhist_2='/Users/dattran/.vim'
+let g:netrw_dirhist_1='/Users/dattran/Programming/techio'
+let g:netrw_dirhist_0='/Users/dattran/Programming/techio/util'
