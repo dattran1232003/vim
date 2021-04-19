@@ -1,8 +1,10 @@
 let g:dracula_italic = 0 " Disable random word highlight
 filetype off
 
+
 call plug#begin('~/.vim/plugged')
 Plug 'mattn/emmet-vim'
+Plug 'mattn/webapi-vim'
 Plug 'preservim/vimux'
 Plug 'neomake/neomake'
 Plug 'tpope/vim-surround'
@@ -40,6 +42,14 @@ set number
 "" Show available match command
 :cnoremap <Tab> <C-L><C-D>
 
+"" sort lines by length
+function! SortLines() range
+    execute a:firstline . "," . a:lastline . 's/^\(.*\)$/\=strdisplaywidth( submatch(0) ) . " " . submatch(0)/'
+    execute a:firstline . "," . a:lastline . 'sort n'
+    execute a:firstline . "," . a:lastline . 's/^\d\+\s//'
+endfunction
+vnoremap <silent> <Leader><Space> :call SortLines()<CR><CR>
+
 "" Set tab and indent
 filetype plugin indent on
 syntax on
@@ -59,7 +69,7 @@ nnoremap <silent> <leader>sv :so ~/.vim/vimrc<CR>:echo 'vim sourced'<cr>
 
 " vim netrw config
 let g:netrw_banner = 0
-let g:netrw_liststyle = 3
+let g:netrw_liststyle = 0
 
 " Create new plank line
 nnoremap <silent> <space> o<esc>
@@ -93,8 +103,8 @@ nnoremap <Leader>9 9gt
 noremap <Leader>te :tabe%:h<CR>						" Easily create a new tab.
 noremap <Leader>tc :tabclose<CR>					" Easily close a tab.
 noremap <Leader>tm :tabmove<CR>						" Easily move a tab.
-noremap <Leader>tn :tabnext<CR>						" Easily go to next tab.
-noremap <Leader>tp :tabprevious<CR>       " Easily go to previous tab.
+noremap <Leader>n :tabnext<CR>						" Easily go to next tab.
+noremap <Leader>p :tabprevious<CR>       " Easily go to previous tab.
 noremap <Leader>td :DuplicateTabpane<CR> 	" Easily duplicate a tab
 
 " Remap save key to Shift + S
@@ -146,9 +156,13 @@ let g:ale_sign_error = '✘'
 let g:ale_sign_warning = '⚠'
 highlight ALEErrorSign ctermbg=NONE ctermfg=red
 highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
+
+let g:ale_linters = {
+            \   'javascript': ['eslint'],
+            \}
 let g:ale_fixers = {
-      \ 'javascript' : ['prettier', 'eslint']
-      \ }
+            \ 'javascript' : ['eslint', 'prettier']
+            \ }
 
 " FZF configure
 let $FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --layout reverse --margin=1,4 --preview 'bat --color=always --style=header,grid --line-range :300 {}'"
@@ -165,9 +179,15 @@ let g:fzf_action = {
 set clipboard=unnamed
 
 " Coc config
-let g:coc_global_extensions = ['coc-tsserver', 'coc-emmet', 'coc-css', 'coc-html', 'coc-json', 'coc-yank', 'coc-prettier']
+let g:coc_global_extensions = ['coc-eslint', 'coc-tsserver' , 'coc-emmet', 'coc-css', 'coc-html', 'coc-json', 'coc-yank', 'coc-prettier']
+nmap <silent> <Leader>j <Plug>(coc-diagnostic-next-error)
+nmap <silent> <Leader>k <Plug>(coc-diagnostic-prev-error)
 
-" Emmet config
+"" Emmet config
+" custom snippets
+let g:user_emmet_settings = webapi#json#decode(join(
+    \readfile(expand('~/.vim/.snippets_custom.json')), "\n")
+    \)
 
 " Typescript config
 autocmd BufEnter *.{jx,ts,tsx} :syntax sync fromstart
