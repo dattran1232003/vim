@@ -1,7 +1,6 @@
 {
   "javascript": {
     "snippets": {
-      "rsfp": "import React from 'react'\nimport PropTypes from 'prop-types'\n\n${2}.PropTypes = {\n\t\n} \n\nfunction \\|(props) { \n\treturn(\n\t\n\t)\n}\n\nexport default component"
     }
   },
   "jsx" : {

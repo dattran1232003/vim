@@ -1,22 +1,21 @@
+set encoding=UTF-8
 let g:dracula_italic = 0 " Disable random word highlight
-filetype off
-
 
 call plug#begin('~/.vim/plugged')
 Plug 'mattn/emmet-vim'
 Plug 'mattn/webapi-vim'
 Plug 'preservim/vimux'
+Plug 'SirVer/ultisnips'
 Plug 'neomake/neomake'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
 Plug 'dense-analysis/ale'
 Plug 'sheerun/vim-polyglot'
 Plug 'jiangmiao/auto-pairs'
 Plug 'vim-airline/vim-airline'
 Plug 'pangloss/vim-javascript'
-Plug 'MaxMEllon/vim-jsx-pretty'
-Plug 'leafgarland/typescript-vim'
-Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-Plug 'jparise/vim-graphql'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'dracula/vim', { 'as': 'dracula' }
@@ -24,13 +23,41 @@ Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+:wa
+
+" NERDTree
+Plug 'preservim/nerdtree'
+" Markdown preview
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 call plug#end()
 
+" NERDTree config
+
+"" Exit Vim if NERDTree is the only window left.
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() |
+    \ quit | endif
+
+"" If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
+autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
+    \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
+
+" fix navigator jumping
+let g:NERDTreeMapJumpPrevSibling=""
+let g:NERDTreeMapJumpNextSibling=""
+
+"" Toogle map
+nmap <F4> :NERDTreeToggle<CR>
 
 " Bar fonts
 let g:airline_powerline_fonts = 1
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
+
+" prevent break long lines
+set linebreak 
+
+" stop insert new blank line (I guess)
+set textwidth=0 wrapmargin=0 
 
 " Remap leader key
 let mapleader = '-'
@@ -111,10 +138,7 @@ noremap <Leader>td :DuplicateTabpane<CR> 	" Easily duplicate a tab
 nnoremap <S-s> :w<CR>
 
 " Map exit key in insert mode
-inoremap jk <ESC> 
-inoremap JK <ESC>
-inoremap Jk <ESC>
-inoremap jK <ESC>
+inoremap jk <ESC>
 
 " Mapping to move line
 nnoremap ∆ :m .+1<CR>==
@@ -143,6 +167,11 @@ nnoremap <C-p> :Files<cr>
 " Theme config
 syntax on
 colorscheme dracula
+
+" register config
+nnoremap <leader>d "_d
+xnoremap <leader>d "_d
+xnoremap p "_dP
 
 " Auto Pairs config
 let g:AutoPairsFlyMode = 0
@@ -189,6 +218,12 @@ let g:user_emmet_settings = webapi#json#decode(join(
     \readfile(expand('~/.vim/.snippets_custom.json')), "\n")
     \)
 
+"ultisnips
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="^z"
+let g:UltiSnipsJumpBackwardTrigger="^b"
+
+
 " Typescript config
 autocmd BufEnter *.{jx,ts,tsx} :syntax sync fromstart
 autocmd BufLeave *.{jx,ts,tsx} :syntax sync clear
@@ -202,3 +237,6 @@ if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
   let g:coc_global_extensions += ['coc-eslint']
 endif
 
+" markdown preview config
+let g:mkdp_auto_start = 0
+let g:mkdp_auto_close = 1

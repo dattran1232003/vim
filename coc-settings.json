@@ -1,4 +1,7 @@
 {
+  "coc.preferences.jumpCommand": "drop",
+  "javascript.validate.enable": true,
+  "javascript.suggestionActions.enabled": false,
   "eslint.autoFixOnSave": true,
   "eslint.packageManager": "yarn",
   "typescript.validate.enable": true,
