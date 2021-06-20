@@ -1,9 +1,28 @@
 {
   "coc.preferences.jumpCommand": "drop",
-  "javascript.validate.enable": true,
-  "javascript.suggestionActions.enabled": false,
+  "coc.preferences.formatOnType":  true,
+  "coc.preferences.formatOnSaveFiletypes": [
+    "scss", "html", "sass",
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+
+  "tsserver.formatOnType": true,
+
   "eslint.autoFixOnSave": true,
   "eslint.packageManager": "yarn",
+
+  "prettier.tabWidth": 2,
+  "prettier.semi": false,
+  "prettier.singleQuote": true,
+  "prettier.disableSuccessMessage": true,
+
+  "javascript.validate.enable": true,
   "typescript.validate.enable": true,
+  "javascript.suggestionActions.enabled": false,
+
   "emmet.excludeLanguages": ["css", "sass", "scss"]
+
 }

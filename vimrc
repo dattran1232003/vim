@@ -1,45 +1,113 @@
 set encoding=UTF-8
+
 let g:dracula_italic = 0 " Disable random word highlight
 
+if !has('gui_running')
+  set t_Co=256
+endif
+
 call plug#begin('~/.vim/plugged')
-Plug 'mattn/emmet-vim'
-Plug 'mattn/webapi-vim'
-Plug 'preservim/vimux'
 Plug 'SirVer/ultisnips'
-Plug 'neomake/neomake'
+Plug 'sheerun/vim-polyglot'
+Plug 'jiangmiao/auto-pairs'
+
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
-Plug 'dense-analysis/ale'
-Plug 'sheerun/vim-polyglot'
-Plug 'jiangmiao/auto-pairs'
-Plug 'vim-airline/vim-airline'
-Plug 'pangloss/vim-javascript'
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'vim-airline/vim-airline-themes'
+
+" Themes
 Plug 'dracula/vim', { 'as': 'dracula' }
-Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
+Plug 'kaicataldo/material.vim', { 'branch': 'main' }
+
+" Lightline
+Plug 'itchyny/lightline.vim'
+
+" Typescript & Javscript
+Plug 'jparise/vim-graphql'
+Plug 'pangloss/vim-javascript'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
-:wa
+
+" -- Haskell
+Plug 'alx741/vim-hindent'
+Plug 'neovimhaskell/haskell-vim'
 
 " NERDTree
 Plug 'preservim/nerdtree'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+
 " Markdown preview
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+
+" Plugin & Syntax supports
+"Plug 'dense-analysis/ale'
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+
+" color the color
+Plug 'chrisbra/Colorizer'
+
+" icons
+Plug 'ryanoasis/vim-devicons'
+
+" Others
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 call plug#end()
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => General
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Sets how many lines of history VIM has to remember
+set history=500
+
+" Set to auto read when a file is changed from the outside
+set autoread
+
+"" Show available match command
+:cnoremap <Tab> <C-L><C-D>
+
+" With a map leader it's possible to do extra key combinations
+" like <leader>w saves the current file
+
+
+" Set persist folding code on save
+augroup remember_folds
+  autocmd!
+  autocmd BufWinLeave * mkview
+  autocmd BufWinEnter * silent! loadview
+augroup END
+"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => VIM user interface
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set backspace=eol,start,indent
+set whichwrap+=<,>,h,l
+
+" Cursor shape
+let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+""""""""""""""""""""""""""""""
+" => Visual mode related
+""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => VIM plugins config
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " NERDTree config
+augroup nerdtree_CMDs 
+  autocmd!
 
-"" Exit Vim if NERDTree is the only window left.
-autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() |
-    \ quit | endif
+  "" Exit Vim if NERDTree is the only window left.
+  autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() |
+        \ quit | endif
 
-"" If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
-autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
-    \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
+  "" If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
+  autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
+        \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
+augroup END
 
 " fix navigator jumping
 let g:NERDTreeMapJumpPrevSibling=""
@@ -66,8 +134,6 @@ let mapleader = '-'
 set relativenumber
 set number
 
-"" Show available match command
-:cnoremap <Tab> <C-L><C-D>
 
 "" sort lines by length
 function! SortLines() range
@@ -79,7 +145,7 @@ vnoremap <silent> <Leader><Space> :call SortLines()<CR><CR>
 
 "" Set tab and indent
 filetype plugin indent on
-syntax on
+
 set omnifunc=syntaxcomplete#Complete
 set tabstop=2
 set shiftwidth=2
@@ -168,6 +234,11 @@ nnoremap <C-p> :Files<cr>
 syntax on
 colorscheme dracula
 
+"colorscheme material 
+" let g:material_terminal_italic = 1
+" let g:material_theme_style = 'lighter'
+
+
 " register config
 nnoremap <leader>d "_d
 xnoremap <leader>d "_d
@@ -177,21 +248,22 @@ xnoremap p "_dP
 let g:AutoPairsFlyMode = 0
 
 " Setting up for javascript syntax
+let g:javascript_plugin_flow = 1
 let g:javascript_plugin_jsdoc = 1
 let g:javascript_plugin_ngdoc = 1
-let g:javascript_plugin_flow = 1
-" ALE config
-let g:ale_sign_error = '✘'
-let g:ale_sign_warning = '⚠'
-highlight ALEErrorSign ctermbg=NONE ctermfg=red
-highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
 
-let g:ale_linters = {
-            \   'javascript': ['eslint'],
-            \}
-let g:ale_fixers = {
-            \ 'javascript' : ['eslint', 'prettier']
-            \ }
+" ALE config
+" let g:ale_sign_error = '✘'
+" let g:ale_sign_warning = '⚠'
+" highlight ALEErrorSign ctermbg=NONE ctermfg=red
+" highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
+
+" let g:ale_linters = {
+"             \   'javascript': ['eslint'],
+"             \}
+" let g:ale_fixers = {
+"             \ 'javascript' : ['eslint', 'prettier']
+"             \ }
 
 " FZF configure
 let $FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --layout reverse --margin=1,4 --preview 'bat --color=always --style=header,grid --line-range :300 {}'"
@@ -208,26 +280,51 @@ let g:fzf_action = {
 set clipboard=unnamed
 
 " Coc config
-let g:coc_global_extensions = ['coc-eslint', 'coc-tsserver' , 'coc-emmet', 'coc-css', 'coc-html', 'coc-json', 'coc-yank', 'coc-prettier']
+let g:coc_global_extensions = ['coc-tsserver', 'coc-emmet', 'coc-css', 'coc-html', 'coc-json', 'coc-yank']
 nmap <silent> <Leader>j <Plug>(coc-diagnostic-next-error)
 nmap <silent> <Leader>k <Plug>(coc-diagnostic-prev-error)
 
-"" Emmet config
-" custom snippets
-let g:user_emmet_settings = webapi#json#decode(join(
-    \readfile(expand('~/.vim/.snippets_custom.json')), "\n")
-    \)
+nnoremap <silent> K :call CocAction('doHover')<CR>
+
+let g:user_emmet_leader_key = '<C-e>'
+let g:user_emmet_expandabbr_key = '<C-x><C-e>'
+
+imap <silent><expr> <Tab> <SID>expand()
+
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gr <Plug>(coc-references)
+nmap <leader>do <Plug>(coc-codeaction)
+
+function! s:expand()
+  if pumvisible()
+    return "\<C-y>"
+  endif
+  let col = col('.') - 1
+  if !col || getline('.')[col - 1]  =~# '\s'
+    return "\<Tab>"
+  endif
+  return "\<C-x>\<C-e>"
+endfunction
 
 "ultisnips
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="^z"
 let g:UltiSnipsJumpBackwardTrigger="^b"
 
-
 " Typescript config
-autocmd BufEnter *.{jx,ts,tsx} :syntax sync fromstart
-autocmd BufLeave *.{jx,ts,tsx} :syntax sync clear
-autocmd FileType typescript :set makeprg=tsc
+augroup ts_CMDs
+  autocmd!
+
+  autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
+  autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
+  autocmd BufRead,BufNewFile tsconfig.json set filetype=jsonc
+augroup END
+
+" augroup SyntaxSettings
+"     autocmd!
+"     autocmd BufNewFile,BufRead *.tsx set filetype=typescriptreact
+" augroup END
 
 if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
   let g:coc_global_extensions += ['coc-prettier']
@@ -240,3 +337,38 @@ endif
 " markdown preview config
 let g:mkdp_auto_start = 0
 let g:mkdp_auto_close = 1
+
+" -- Haskell config
+" let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
+" let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
+" let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
+" let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
+" let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
+" let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
+" let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
+
+" Disable indent, using hindent
+let g:haskell_indent_disable = 1
+
+" Hindent config
+let g:hindent_on_save = 1
+
+" lightline config
+set laststatus=2
+set noshowmode
+
+
+let g:lightline = {
+      \ 'colorscheme': 'dracula',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ],
+      \   'right': [ ['lineinfo'], ['percent'], 
+      \              ['fileformat', 'fileencoding', 'filetype'] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead',
+      \ },
+      \ }
+
+
