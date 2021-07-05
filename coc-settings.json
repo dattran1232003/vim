@@ -23,6 +23,8 @@
   "typescript.validate.enable": true,
   "javascript.suggestionActions.enabled": false,
 
-  "emmet.excludeLanguages": ["css", "sass", "scss"]
-
+  "emmet.excludeLanguages": ["css", "sass", "scss"],
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact"
+  }
 }

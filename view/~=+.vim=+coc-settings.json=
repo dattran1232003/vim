@@ -10,12 +10,12 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 19 - ((18 * winheight(0) + 19) / 38)
+let s:l = 28 - ((21 * winheight(0) + 20) / 41)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 19
-normal! 027|
+keepjumps 28
+normal! 010|
 lcd ~/Programming/blogging/client
 let &g:so = s:so_save | let &g:siso = s:siso_save
 nohlsearch

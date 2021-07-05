@@ -75,6 +75,7 @@ set autoread
 " Set persist folding code on save
 augroup remember_folds
   autocmd!
+
   autocmd BufWinLeave * mkview
   autocmd BufWinEnter * silent! loadview
 augroup END
@@ -100,14 +101,9 @@ let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 augroup nerdtree_CMDs 
   autocmd!
 
-  "" Exit Vim if NERDTree is the only window left.
-  autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() |
-        \ quit | endif
 
-  "" If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
-  autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
-        \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
 augroup END
+
 
 " fix navigator jumping
 let g:NERDTreeMapJumpPrevSibling=""
@@ -153,6 +149,9 @@ set expandtab
 set autoindent
 
 "" MAPPING AREA
+" Open file in a new window
+map <F8> :vertical wincmd f<CR>
+
 " Quick select all lines in file  
 nnoremap vA ggVG
 
