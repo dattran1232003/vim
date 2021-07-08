@@ -10,13 +10,13 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 87 - ((13 * winheight(0) + 19) / 39)
+let s:l = 208 - ((27 * winheight(0) + 30) / 61)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 87
+keepjumps 208
 normal! 0
-lcd ~/Programming/blogging/client
+lcd ~/dattran/nestjs-started
 let &g:so = s:so_save | let &g:siso = s:siso_save
 doautoall SessionLoadPost
 " vim: set ft=vim :

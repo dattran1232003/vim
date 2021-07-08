@@ -206,8 +206,8 @@ nnoremap <S-s> :w<CR>
 inoremap jk <ESC>
 
 " Mapping to move line
-nnoremap ∆ :m .+1<CR>==
 nnoremap ˚ :m .-2<CR>==
+nnoremap ∆ :m .+1<CR>==
 
 inoremap ∆ <Esc>:m .+1<CR>==gi
 inoremap ˚ <Esc>:m .-2<CR>==gi
@@ -369,5 +369,6 @@ let g:lightline = {
       \   'gitbranch': 'FugitiveHead',
       \ },
       \ }
+
 
 
