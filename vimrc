@@ -111,6 +111,7 @@ let g:NERDTreeMapJumpNextSibling=""
 
 "" Toogle map
 nmap <F4> :NERDTreeToggle<CR>
+nmap ` :NERDTreeToggle<CR>
 
 " Bar fonts
 let g:airline_powerline_fonts = 1
@@ -152,6 +153,7 @@ set autoindent
 " Open file in a new window
 map <F8> :vertical wincmd f<CR>
 
+nnoremap <leader>g <Nop>
 " Quick select all lines in file  
 nnoremap vA ggVG
 
