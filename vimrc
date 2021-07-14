@@ -197,6 +197,7 @@ nnoremap <Leader>9 9gt
 noremap <Leader>te :tabe%:h<CR>						" Easily create a new tab.
 noremap <Leader>tc :tabclose<CR>					" Easily close a tab.
 noremap <Leader>tm :tabmove<CR>						" Easily move a tab.
+noremap <Leader>tn :tabnew .<CR>          " Easily new tab on current dir.
 noremap <Leader>n :tabnext<CR>						" Easily go to next tab.
 noremap <Leader>p :tabprevious<CR>       " Easily go to previous tab.
 noremap <Leader>td :DuplicateTabpane<CR> 	" Easily duplicate a tab
@@ -285,7 +286,7 @@ let g:coc_global_extensions = ['coc-tsserver', 'coc-emmet', 'coc-css', 'coc-html
 nmap <silent> <Leader>j <Plug>(coc-diagnostic-next-error)
 nmap <silent> <Leader>k <Plug>(coc-diagnostic-prev-error)
 
-nnoremap <silent> K :call CocAction('doHover')<CR>
+nnoremap <silent> K :call CocActionAsync('doHover')<CR>
 
 let g:user_emmet_leader_key = '<C-e>'
 let g:user_emmet_expandabbr_key = '<C-x><C-e>'
@@ -371,6 +372,5 @@ let g:lightline = {
       \   'gitbranch': 'FugitiveHead',
       \ },
       \ }
-
 
 
