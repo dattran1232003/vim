@@ -16,6 +16,7 @@ keepjumps exe s:l
 normal! zt
 keepjumps 10
 normal! 02|
+lcd ~/dattran/e-commerce
 let &g:so = s:so_save | let &g:siso = s:siso_save
 doautoall SessionLoadPost
 " vim: set ft=vim :

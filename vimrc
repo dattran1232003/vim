@@ -26,6 +26,7 @@ Plug 'itchyny/lightline.vim'
 " Typescript & Javscript
 Plug 'jparise/vim-graphql'
 Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
@@ -72,14 +73,6 @@ set autoread
 " like <leader>w saves the current file
 
 
-" Set persist folding code on save
-augroup remember_folds
-  autocmd!
-
-  autocmd BufWinLeave * mkview
-  autocmd BufWinEnter * silent! loadview
-augroup END
-"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -91,8 +84,10 @@ let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 """"""""""""""""""""""""""""""
-" => Visual mode related
+" => vim split pane 
 """"""""""""""""""""""""""""""
+set splitbelow
+set splitright
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM plugins config
@@ -226,6 +221,7 @@ nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
 nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
 nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
 
+
 " Mapping for Command Prompt in vim
 map <leader>vp :VimuxPromptCommand<cr>
 
@@ -349,6 +345,17 @@ let g:mkdp_auto_close = 1
 " let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
 " let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
 
+"" C/C++
+function FormatBuffer()
+  if &modified && !empty(findfile('.clang-format', expand('%:p:h') . ';'))
+    let cursor_pos = getpos('.')
+    :%!clang-format
+    call setpos('.', cursor_pos)
+  endif
+endfunction
+
+autocmd BufWritePre *.h,*.hpp,*.c,*.cpp,*.vert,*.frag :call FormatBuffer()
+
 " Disable indent, using hindent
 let g:haskell_indent_disable = 1
 
@@ -372,5 +379,4 @@ let g:lightline = {
       \   'gitbranch': 'FugitiveHead',
       \ },
       \ }
-
 

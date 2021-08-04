@@ -1,5 +1,7 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =7
+let g:netrw_dirhistcnt =9
+let g:netrw_dirhist_9='/Users/ant-tech/.vim'
+let g:netrw_dirhist_8='/Users/ant-tech/dattran/e-commerce/src/auth/dto'
 let g:netrw_dirhist_7='/Users'
 let g:netrw_dirhist_6='/Users/ant-tech'
 let g:netrw_dirhist_5='/Users/ant-tech/.vim'
@@ -8,5 +10,3 @@ let g:netrw_dirhist_3='/Users/ant-tech/.oh-my-zsh/lib'
 let g:netrw_dirhist_2='/Users/ant-tech/.vim'
 let g:netrw_dirhist_1='/Users/ant-tech/dattran/nestjs-started/src'
 let g:netrw_dirhist_0='/Users/ant-tech/dattran/nestjs-started'
-let g:netrw_dirhist_9='/Users/ant-tech/.oh-my-zsh/custom/plugins/zsh-autosuggestions'
-let g:netrw_dirhist_8='/Users/ant-tech/.oh-my-zsh/custom/plugins'
